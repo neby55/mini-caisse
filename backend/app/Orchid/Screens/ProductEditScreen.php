@@ -4,7 +4,10 @@ namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
 use App\Models\Product;
+use App\Enums\ProductStatus;
+use Illuminate\Validation\Rules\Enum;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
@@ -56,20 +59,15 @@ class ProductEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make('Créer')
-                ->icon('pencil')
-                ->method('createOrUpdate')
-                ->canSee(!$this->product->exists),
-
-            Button::make('Editer')
-                ->icon('note')
-                ->method('createOrUpdate')
-                ->canSee($this->product->exists),
+            Link::make('Retour à la liste')
+                ->icon('arrow-left')
+                ->route('platform.product.list'),
 
             Button::make('Supprimer')
                 ->icon('trash')
                 ->method('remove')
-                ->canSee($this->product->exists),
+                ->canSee($this->product->exists)
+                ->confirm('Êtes-vous certain de vouloir supprimer cette élément ?'),
         ];
     }
 
@@ -86,7 +84,8 @@ class ProductEditScreen extends Screen
                     ->title('Nom')
                     ->placeholder('nom du produit')
                     ->help('Rensigner un nom court et compréhensible rapidement')
-                    ->required(),
+                    ->required()
+                    ->value($this->product->exists ? $this->product->name : ''),
 
                 Input::make('price')
                     ->title('Prix')
@@ -98,7 +97,8 @@ class ProductEditScreen extends Screen
                         'groupSeparator' => ' ',
                         'digitsOptional' => true
                     ])
-                    ->required(),
+                    ->required()
+                    ->value($this->product->exists ? $this->product->price : ''),
 
                 Select::make('status')
                     ->title('Statut')
@@ -108,6 +108,13 @@ class ProductEditScreen extends Screen
                         'disabled' => 'désactivé'
                     ])
                     ->required()
+                    ->value($this->product->exists ? $this->product->status : ''),
+    
+                Button::make('Valider')
+                    ->icon('note')
+                    ->method('createOrUpdate')
+                    ->class('btn btn-success btn-block')
+                    ->canSee($this->product->exists)
             ])
         ];
     }
@@ -120,20 +127,34 @@ class ProductEditScreen extends Screen
      */
     public function createOrUpdate(Product $product, Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|unique:products|max:255',
-            'price' => 'required|numeric|gt:0',
-        ]);
+        // Update
+        if (!empty($product)) {
+            $validated = $request->validate([
+                'name' => 'required|max:255',
+                'price' => 'required|numeric|gt:0',
+                'status' => [new Enum(ProductStatus::class)]
+            ]);
 
-        if ($validated) {
-            $product->fill($request->all())->save();
+            if ($validated) {
+                $product->fill($request->all())->save();
+                Alert::info('Le produit a bien été modifié');
+            } else {
+                Alert::warning('Erreur dans la modification du produit');
+            }
+            return redirect()->route('platform.product.edit', $product);
+        } else { // Add
+            $validated = $request->validate([
+                'name' => 'required|unique:products|max:255',
+                'price' => 'required|numeric|gt:0',
+                'status' => [new Enum(ProductStatus::class)]
+            ]);
 
-            Alert::info('Le produit a bien été créé');
-
-            return redirect()->route('platform.product.list');
-        } else {
-            Alert::warning('Erreur dans la création du produit');
-
+            if ($validated) {
+                $product->fill($request->all())->save();
+                Alert::info('Le produit a bien été créé');
+            } else {
+                Alert::warning('Erreur dans la création du produit');
+            }
             return redirect()->route('platform.product.list');
         }
     }

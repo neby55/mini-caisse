@@ -65,4 +65,12 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    /**
+     * Get orders taken by user
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

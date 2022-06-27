@@ -4,10 +4,10 @@ namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Button;
-use App\Models\Product;
-use App\Orchid\Layouts\ProductListLayout;
+use App\Models\Order;
+use App\Orchid\Layouts\OrderListLayout;
 
-class ProductListScreen extends Screen
+class OrderListScreen extends Screen
 {
     /**
      * Query data.
@@ -17,7 +17,7 @@ class ProductListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'products' => Product::filters()->defaultSort('id')->paginate()
+            'orders' => Order::filters()->defaultSort('id')->paginate()
         ];
     }
 
@@ -28,7 +28,7 @@ class ProductListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Liste des produits';
+        return 'Liste des commandes';
     }
 
     /**
@@ -36,7 +36,7 @@ class ProductListScreen extends Screen
      */
     public function description(): ?string
     {
-        return "Gérer les produits qui pourront être commandés via l'application";
+        return "Gérer les commandes qui ont été faites via l'application";
     }
 
     /**
@@ -46,12 +46,7 @@ class ProductListScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [
-            Button::make('Créer')
-                ->icon('pencil')
-                ->class('btn btn-primary')
-                ->route('platform.product.edit')
-        ];
+        return [];
     }
 
     /**
@@ -62,7 +57,7 @@ class ProductListScreen extends Screen
     public function layout(): iterable
     {
         return [
-            ProductListLayout::class
+            OrderListLayout::class
         ];
     }
 }

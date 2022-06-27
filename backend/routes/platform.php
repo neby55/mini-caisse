@@ -12,6 +12,8 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\ProductEditScreen;
 use App\Orchid\Screens\ProductListScreen;
+use App\Orchid\Screens\OrderEditScreen;
+use App\Orchid\Screens\OrderListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -117,3 +119,5 @@ Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('pla
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 Route::screen('product/{product?}', ProductEditScreen::class)->name('platform.product.edit');
 Route::screen('products', ProductListScreen::class)->name('platform.product.list');
+Route::screen('order/{order?}', OrderEditScreen::class)->name('platform.order.edit');
+Route::screen('orders', OrderListScreen::class)->name('platform.order.list');

@@ -5,9 +5,9 @@ namespace App\Orchid\Layouts;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
-use App\Models\Product;
+use App\Models\Order;
 
-class ProductListLayout extends Table
+class OrderListLayout extends Table
 {
     /**
      * Data source.
@@ -17,7 +17,7 @@ class ProductListLayout extends Table
      *
      * @var string
      */
-    protected $target = 'products';
+    protected $target = 'orders';
 
     /**
      * Get the table cells to be displayed.
@@ -27,19 +27,23 @@ class ProductListLayout extends Table
     protected function columns(): iterable
     {
         return [
-            TD::make('name', 'Nom')
+            TD::make('number', 'Numéro')
                 ->sort()
-                ->render(function (Product $product) {
-                    return Link::make($product->name)
-                        ->route('platform.product.edit', $product);
+                ->render(function (Order $order) {
+                    return Link::make($order->number)
+                        ->route('platform.order.edit', $order);
                 }),
-            TD::make('price', 'Prix')->sort(),
+            TD::make('amount', 'Total')->sort(),
+            TD::make('payment_date', 'Date de paiement')->sort(),
+            TD::make('user_id', 'Paiement pris par')->sort()->render(function (Order $order) {
+                return $order->user->name;
+            }),
             TD::make('status', 'Statut')->sort(),
-            TD::make('', 'Actions')->render(function (Product $product) {
+            TD::make('', 'Actions')->render(function (Order $order) {
                 return Link::make('Editer')
                     ->icon('pencil')
                     ->class('btn btn-warning btn-block px-3 py-2')
-                    ->route('platform.product.edit', $product->id);
+                    ->route('platform.order.edit', $order->id);
             })
         ];
     }
