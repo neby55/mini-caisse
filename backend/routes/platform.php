@@ -100,24 +100,32 @@ Route::screen('roles', RoleListScreen::class)
             ->push(__('Roles'), route('platform.systems.roles'));
     });
 
-// Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
+//Route::screen('idea', Idea::class, 'platform.screens.idea');
+Route::screen('product/{product?}', ProductEditScreen::class)
+    ->name('platform.product.edit')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push('Example screen');
+            ->push(__('Products'), route('platform.product.list'));
     });
-
-Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-
-//Route::screen('idea', Idea::class, 'platform.screens.idea');
-Route::screen('product/{product?}', ProductEditScreen::class)->name('platform.product.edit');
-Route::screen('products', ProductListScreen::class)->name('platform.product.list');
-Route::screen('order/{order?}', OrderEditScreen::class)->name('platform.order.edit');
-Route::screen('orders', OrderListScreen::class)->name('platform.order.list');
+Route::screen('products', ProductListScreen::class)
+    ->name('platform.product.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Products'), route('platform.product.list'));
+    });
+Route::screen('order/{order?}', OrderEditScreen::class)
+    ->name('platform.order.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+        ->parent('platform.index')
+        ->push(__('Orders'), route('platform.order.list'));
+    });
+Route::screen('orders', OrderListScreen::class)
+    ->name('platform.order.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+        ->parent('platform.index')
+        ->push(__('Orders'), route('platform.order.list'));
+    });

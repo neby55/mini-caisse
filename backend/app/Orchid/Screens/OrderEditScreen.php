@@ -16,6 +16,7 @@ use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Relation;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 
 class OrderEditScreen extends Screen
 {
@@ -43,7 +44,7 @@ class OrderEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->order->exists ? 'Editer la commande' : 'Créer un commande';
+        return $this->order->exists ? __('Edit order') : __('Create order');
     }
 
     /**
@@ -51,7 +52,7 @@ class OrderEditScreen extends Screen
      */
     public function description(): ?string
     {
-        return "Gérer les commandes qui ont été faites via l'application";
+        return __('Manage orders');
     }
 
     /**
@@ -62,15 +63,19 @@ class OrderEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Link::make('Retour à la liste')
+            Link::make(__('Back to list'))
                 ->icon('arrow-left')
                 ->route('platform.order.list'),
 
-            Button::make('Supprimer')
+            Button::make(__('Delete'))
                 ->icon('trash')
                 ->method('remove')
-                ->canSee($this->order->exists && $this->order->status === 'created')
-                ->confirm('Êtes-vous certain de vouloir supprimer cette élément ?'),
+                ->canSee(
+                    $this->order->exists
+                    && $this->order->status === 'created'
+                    && Auth::user()->can('delete', $this->order)
+                )
+                ->confirm(__('Do you confirm you want to delete this item ?')),
         ];
     }
 
@@ -84,16 +89,16 @@ class OrderEditScreen extends Screen
         return [
             Layout::rows([
                 Input::make('number')
-                    ->title('Numéro')
-                    ->placeholder('Numéro de la commande')
-                    ->help('correspond au numméro sur le ticket fourni au client')
+                    ->title(__('Number'))
+                    ->placeholder(__('Order ID'))
+                    ->help('ID provided to the customer')
                     ->required()
                     ->value($this->order->exists ? $this->order->number : ''),
 
                 Input::make('amount')
-                    ->title('Montant')
-                    ->placeholder('Montant total de la commande')
-                    ->help('Le montant est exprimé en € (euros), et le séparateur des décimales est le . (point)')
+                    ->title(__('Amount'))
+                    ->placeholder(__('Order total'))
+                    ->help(__('Amount in € and decimal separator is .'))
                     ->mask([
                         'alias' => 'currency',
                         'prefix' => '',
@@ -104,28 +109,28 @@ class OrderEditScreen extends Screen
                     ->value($this->order->exists ? $this->order->amount : ''),
                 
                 DateTimer::make('payment_date')
-                    ->title('Date de paiement')
+                    ->title(__('Payment date'))
                     ->allowInput()
                     ->format('Y-m-d H:i')
                     ->value($this->order->exists ? $this->order->payment_date : ''),
 
                 Relation::make('user')
                     ->fromModel(User::class, 'name')
-                    ->title('Paiement pris par')
+                    ->title(__('Payment registered by'))
                     ->value($this->order->exists ? $this->order->user_id : ''),
 
                 Select::make('status')
-                    ->title('Statut')
+                    ->title(__('Status'))
                     ->options([
-                        'created' => 'Crée',
-                        'paid' => 'Payée',
-                        'completed' => 'Terminée',
-                        'canceled' => 'Annulée'
+                        'created' => __('Created'),
+                        'paid' => __('Paid'),
+                        'completed' => __('Completed'),
+                        'canceled' => __('Canceled')
                     ])
                     ->required()
                     ->value($this->order->exists ? $this->order->status : ''),
     
-                Button::make('Valider')
+                Button::make(__('Save'))
                     ->icon('note')
                     ->method('createOrUpdate')
                     ->class('btn btn-success btn-block')
@@ -144,6 +149,8 @@ class OrderEditScreen extends Screen
     {
         // Update
         if (!empty($order)) {
+            $this->authorize('update', $order);
+
             $validated = $request->validate([
                 'number' => 'required|max:255',
                 'amount' => 'required|numeric|gt:0',
@@ -152,7 +159,7 @@ class OrderEditScreen extends Screen
 
             if ($validated) {
                 $order->fill($request->all())->save();
-                Alert::info('La commande a bien été modifié');
+                Alert::info('La commande a bien été modifié'); // J'en peux plus de traduire :(
             } else {
                 Alert::warning('Erreur dans la modification de la commande');
             }
@@ -172,6 +179,9 @@ class OrderEditScreen extends Screen
      */
     public function remove(Order $order)
     {
+        // Check Auth
+        $this->authorize('delete', $order);
+
         $order->delete();
 
         Alert::info('Commande supprimée');

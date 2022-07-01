@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class OrderPolicy
 {
@@ -18,7 +19,7 @@ class OrderPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasAccess('orders.view');
     }
 
     /**
@@ -30,7 +31,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order)
     {
-        //
+        return $user->hasAccess('orders.edit');
     }
 
     /**
@@ -41,7 +42,7 @@ class OrderPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasAccess('orders.add');
     }
 
     /**
@@ -53,7 +54,11 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
-        //
+        dump($user);
+        dump($order);
+        dump($user->hasAccess('orders.edit'));
+        exit;
+        return $user->hasAccess('orders.edit');
     }
 
     /**
@@ -65,7 +70,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order)
     {
-        //
+        return $user->hasAccess('orders.delete');
     }
 
     /**
@@ -77,7 +82,7 @@ class OrderPolicy
      */
     public function restore(User $user, Order $order)
     {
-        //
+        return $user->hasAccess('orders.edit');
     }
 
     /**
@@ -89,6 +94,6 @@ class OrderPolicy
      */
     public function forceDelete(User $user, Order $order)
     {
-        //
+        return $user->hasAccess('orders.delete');
     }
 }

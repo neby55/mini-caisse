@@ -3,9 +3,10 @@
 namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
-use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use App\Models\Product;
 use App\Orchid\Layouts\ProductListLayout;
+use Illuminate\Support\Facades\Auth;
 
 class ProductListScreen extends Screen
 {
@@ -47,9 +48,9 @@ class ProductListScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make('Créer')
+            Link::make(__('Create'))
                 ->icon('pencil')
-                ->class('btn btn-primary')
+                ->canSee(Auth::user()->can('create', Product::class))
                 ->route('platform.product.edit')
         ];
     }
@@ -61,6 +62,8 @@ class ProductListScreen extends Screen
      */
     public function layout(): iterable
     {
+        $this->authorize('viewAny', Product::class);
+
         return [
             ProductListLayout::class
         ];

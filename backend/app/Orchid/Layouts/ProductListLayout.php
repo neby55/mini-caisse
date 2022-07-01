@@ -6,6 +6,7 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductListLayout extends Table
 {
@@ -26,21 +27,26 @@ class ProductListLayout extends Table
      */
     protected function columns(): iterable
     {
-        return [
-            TD::make('name', 'Nom')
+        $columns = [
+            TD::make('name', __('Name'))
                 ->sort()
                 ->render(function (Product $product) {
                     return Link::make($product->name)
                         ->route('platform.product.edit', $product);
                 }),
             TD::make('price', 'Prix')->sort(),
-            TD::make('status', 'Statut')->sort(),
-            TD::make('', 'Actions')->render(function (Product $product) {
-                return Link::make('Editer')
+            TD::make('status', 'Statut')->sort()
+        ];
+
+        $columns[] = TD::make('', 'Actions')->render(function (Product $product) {
+            if (Auth::user()->can('update', $product)) {
+                return Link::make(__('Edit'))
                     ->icon('pencil')
                     ->class('btn btn-warning btn-block px-3 py-2')
                     ->route('platform.product.edit', $product->id);
-            })
-        ];
+            }
+        });
+
+        return $columns;
     }
 }

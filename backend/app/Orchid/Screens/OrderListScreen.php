@@ -6,6 +6,7 @@ use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Button;
 use App\Models\Order;
 use App\Orchid\Layouts\OrderListLayout;
+use Illuminate\Support\Facades\Auth;
 
 class OrderListScreen extends Screen
 {
@@ -28,7 +29,7 @@ class OrderListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Liste des commandes';
+        return __('Orders list');
     }
 
     /**
@@ -36,7 +37,7 @@ class OrderListScreen extends Screen
      */
     public function description(): ?string
     {
-        return "Gérer les commandes qui ont été faites via l'application";
+        return __('Manager orders');
     }
 
     /**
@@ -56,6 +57,8 @@ class OrderListScreen extends Screen
      */
     public function layout(): iterable
     {
+        $this->authorize('viewAny', Order::class);
+
         return [
             OrderListLayout::class
         ];

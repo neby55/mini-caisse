@@ -32,6 +32,68 @@ class DatabaseSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin'),
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Caisse',
+            'email' => 'caisse@gmail.com',
+            'password' => Hash::make('caisse'),
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+
+        // Adding Roles
+        DB::table('roles')->insert([
+            'name' => 'admin',
+            'slug' => 'admin',
+            'permissions' => '{"orders.add": "1", "orders.edit": "1", "orders.view": "1", "products.add": "1", "orders.delete": "1", "products.edit": "1", "products.view": "1", "platform.index": "1", "products.delete": "1", "platform.systems.roles": "1", "platform.systems.users": "1", "platform.systems.attachment": "1"}',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'gerant',
+            'slug' => 'gerant',
+            'permissions' => '{"orders.add": "1", "orders.edit": "1", "orders.view": "1", "products.add": "1", "orders.delete": "1", "products.edit": "1", "products.view": "1", "platform.index": "1", "products.delete": "1", "platform.systems.roles": "0", "platform.systems.users": "0", "platform.systems.attachment": "0"}',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'caisse',
+            'slug' => 'caisse',
+            'permissions' => '{"orders.add": "1", "orders.edit": "1", "orders.view": "1", "products.add": "0", "orders.delete": "0", "products.edit": "0", "products.view": "1", "platform.index": "1", "products.delete": "0", "platform.systems.roles": "0", "platform.systems.users": "0", "platform.systems.attachment": "0"}',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'serveur',
+            'slug' => 'serveur',
+            'permissions' => '{"orders.add": "1", "orders.edit": "1", "orders.view": "1", "products.add": "0", "orders.delete": "1", "products.edit": "0", "products.view": "1", "platform.index": "1", "products.delete": "0", "platform.systems.roles": "0", "platform.systems.users": "0", "platform.systems.attachment": "0"}',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+
+        // Adding Users has roles
+        DB::table('role_users')->insert([
+            'user_id' => 1,
+            'role_id' => 4
+        ]);
+        DB::table('role_users')->insert([
+            'user_id' => 2,
+            'role_id' => 2
+        ]);
+        DB::table('role_users')->insert([
+            'user_id' => 3,
+            'role_id' => 1
+        ]);
+        DB::table('role_users')->insert([
+            'user_id' => 4,
+            'role_id' => 3
+        ]);
 
         // Adding Orders & Products
         $this->call([

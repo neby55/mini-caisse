@@ -8,6 +8,7 @@ use App\Enums\ProductStatus;
 use Illuminate\Validation\Rules\Enum;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
@@ -40,7 +41,7 @@ class ProductEditScreen extends Screen
      */
     public function name(): ?string
     {
-        return $this->product->exists ? 'Editer le produit' : 'Créer un produit';
+        return $this->product->exists ? __('Edit product') : __('Create product');
     }
 
     /**
@@ -48,7 +49,7 @@ class ProductEditScreen extends Screen
      */
     public function description(): ?string
     {
-        return "Gérer les produits qui pourront être commandés via l'application";
+        return __('Manage products');
     }
 
     /**
@@ -59,15 +60,15 @@ class ProductEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Link::make('Retour à la liste')
+            Link::make(__('Back to list'))
                 ->icon('arrow-left')
                 ->route('platform.product.list'),
 
-            Button::make('Supprimer')
+            Button::make(__('Delete'))
                 ->icon('trash')
                 ->method('remove')
-                ->canSee($this->product->exists)
-                ->confirm('Êtes-vous certain de vouloir supprimer cette élément ?'),
+                ->canSee($this->product->exists && Auth::user()->can('delete', $this->product))
+                ->confirm(__('Do you confirm you want to delete this item ?')),
         ];
     }
 
@@ -78,18 +79,24 @@ class ProductEditScreen extends Screen
      */
     public function layout(): iterable
     {
+        if ($this->product->exists) {
+            $this->authorize('update', $this->product);
+        } else {
+            $this->authorize('create', Product::class);
+        }
+
         return [
             Layout::rows([
                 Input::make('name')
-                    ->title('Nom')
-                    ->placeholder('nom du produit')
+                    ->title(__('Name'))
+                    ->placeholder(__('product name'))
                     ->help('Rensigner un nom court et compréhensible rapidement')
                     ->required()
                     ->value($this->product->exists ? $this->product->name : ''),
 
                 Input::make('price')
-                    ->title('Prix')
-                    ->placeholder('prix du produit')
+                    ->title(__('Price'))
+                    ->placeholder(__('product price'))
                     ->help('Le montant est exprimé en € (euros), et le séparateur des décimales est le . (point)')
                     ->mask([
                         'alias' => 'currency',
@@ -101,20 +108,19 @@ class ProductEditScreen extends Screen
                     ->value($this->product->exists ? $this->product->price : ''),
 
                 Select::make('status')
-                    ->title('Statut')
+                    ->title(__('Status'))
                     ->options([
-                        'created' => 'créé',
-                        'enabled' => 'actif',
-                        'disabled' => 'désactivé'
+                        'created' => __('Created'),
+                        'enabled' => __('Enabled'),
+                        'disabled' => __('Disabled'),
                     ])
                     ->required()
                     ->value($this->product->exists ? $this->product->status : ''),
     
-                Button::make('Valider')
+                Button::make(__('SAve'))
                     ->icon('note')
                     ->method('createOrUpdate')
                     ->class('btn btn-success btn-block')
-                    ->canSee($this->product->exists)
             ])
         ];
     }
@@ -126,9 +132,11 @@ class ProductEditScreen extends Screen
      * @return \Illuminate\Http\RedirectResponse
      */
     public function createOrUpdate(Product $product, Request $request)
-    {
+    {   
         // Update
         if (!empty($product)) {
+            $this->authorize('update', $product);
+
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'price' => 'required|numeric|gt:0',
@@ -143,6 +151,8 @@ class ProductEditScreen extends Screen
             }
             return redirect()->route('platform.product.edit', $product);
         } else { // Add
+            $this->authorize('create', Product::class);
+
             $validated = $request->validate([
                 'name' => 'required|unique:products|max:255',
                 'price' => 'required|numeric|gt:0',
@@ -167,6 +177,9 @@ class ProductEditScreen extends Screen
      */
     public function remove(Product $product)
     {
+        // Check Auth
+        $this->authorize('delete', $product);
+
         $product->delete();
 
         Alert::info('Produit supprimé');
