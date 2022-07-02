@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedSmallInteger('number');
             $table->unsignedDecimal('amount', 8, 2);
             $table->dateTime('payment_date')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained();
             $table->enum('status', ['created', 'paid', 'completed', 'canceled']);
             $table->timestamps();
         });

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Product extends Model
+class Cart extends Model
 {
     use HasFactory, SoftDeletes, Filterable, AsSource;
 
@@ -17,43 +17,43 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'price', 'status'];
+    protected $fillable = ['order_id', 'product_id', 'quantity', 'price'];
 
     /**
      * Name of columns to which http sorting can be applied
      *
      * @var array
      */
-    protected $allowedSorts = ['name', 'price'];
+    protected $allowedSorts = ['order_id', 'product_id', 'quantity', 'price'];
 
     /**
      * Name of columns to which http filter can be applied
      *
      * @var array
      */
-    protected $allowedFilters = ['name', 'price', 'status'];
+    protected $allowedFilters = ['order_id', 'product_id', 'quantity', 'price'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['order_id', 'product_id', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
+     * Get the related order
      */
-    protected $casts = [
-        'status' => \App\Enums\ProductStatus::class,
-    ];
-
-    /**
-     * Related carts
-     */
-    public function carts()
+    public function order()
     {
-        return $this->hasMany(Cart::class);
+        return $this->belongsTo(Order::class);
     }
+
+    /**
+     * Get the related product
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
 }

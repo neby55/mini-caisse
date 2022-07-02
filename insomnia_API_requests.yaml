@@ -1,0 +1,239 @@
+_type: export
+__export_format: 4
+__export_date: 2022-07-02T21:17:32.602Z
+__export_source: insomnia.desktop.app:v2021.5.3
+resources:
+  - _id: req_2adbe4ec9721472e863b8f51122b43e7
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656768054857
+    created: 1656765846429
+    url: http://localhost:8001/api/orders
+    name: getOrders
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1656765846430
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_8cb80fa175964cada7ce5393488347af
+    parentId: null
+    modified: 1656765825788
+    created: 1656765825788
+    name: Mini-caisse
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_f746d8cfe65547fb9eb188553bf8954b
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656768532384
+    created: 1656768523042
+    url: http://localhost:8001/api/orders/filters/created
+    name: getCreatedOrders
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1644850327499.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_02c9e77637bb462f8c675d7022e389bb
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656768550130
+    created: 1656768546245
+    url: http://localhost:8001/api/orders/filters/paid
+    name: getPaidOrders
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1638892568034.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_6e325c947b214442a6ac8460aaef29ff
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656769258022
+    created: 1656768762301
+    url: http://localhost:8001/api/orders/1
+    name: "getOrder #1"
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1638892568009.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_68819338232f4475835345ab93c924ea
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656796594579
+    created: 1656795704647
+    url: http://localhost:8001/api/orders/2/payment
+    name: "setOrderPayment #2"
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1638892567996.75
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ae5ece49e8b4436f99bec455efbb0b8c
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656769263454
+    created: 1656769252445
+    url: http://localhost:8001/api/products
+    name: getProducts
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1638892567984.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_602e81638c524d9c864785fc432154ee
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656788459333
+    created: 1656788442889
+    url: http://localhost:8001/api/preparations/by-orders
+    name: getPreparationsByOrders
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1635913688276.625
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b31bb156b87842d1bd0b210795d57f62
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656788890536
+    created: 1656788885469
+    url: http://localhost:8001/api/preparations/by-products
+    name: getPreparationsByProducts
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - id: pair_91b3960eea6d47998a85326453d721de
+        name: Content-Type
+        value: application/json
+        description: ""
+    authentication: {}
+    metaSortKey: -1634424248422.8125
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_d6a84d051ae78cfd0b3d47cdb21d6706bb765457
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656765825812
+    created: 1656765825812
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1656765825812
+    _type: environment
+  - _id: jar_d6a84d051ae78cfd0b3d47cdb21d6706bb765457
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656765825817
+    created: 1656765825817
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_913fd5a788c6422897070a3859a6728f
+    parentId: wrk_8cb80fa175964cada7ce5393488347af
+    modified: 1656765825798
+    created: 1656765825798
+    fileName: Mini-caisse
+    contents: ""
+    contentType: yaml
+    _type: api_spec

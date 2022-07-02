@@ -34,11 +34,20 @@ class Order extends Model
     protected $allowedFilters = ['number', 'amount', 'user_id', 'payment_date', 'status'];
 
     /**
-     * List of allowed status
-     * 
+     * The attributes that should be hidden for arrays.
+     *
      * @var array
      */
-    public static $status = ['created', 'paid', 'completed', 'canceled'];
+    protected $hidden = ['user_id', 'created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => \App\Enums\OrderStatus::class,
+    ];
 
     /**
      * Get the user related to order payment
@@ -46,6 +55,14 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Related carts
+     */
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 
 }

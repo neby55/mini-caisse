@@ -21,6 +21,10 @@ return new class extends Migration
             $table->softDeletes();
         });
         
+        Schema::table('carts', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+        
         Schema::table('users', function (Blueprint $table) {
             $table->softDeletes();
         });
@@ -38,6 +42,10 @@ return new class extends Migration
         });
         
         Schema::table('products', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+        
+        Schema::table('carts', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
         

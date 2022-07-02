@@ -70,7 +70,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order)
     {
-        return $user->hasAccess('orders.delete');
+        return empty($order->payment_date) && $user->hasAccess('orders.delete');
     }
 
     /**
@@ -94,6 +94,6 @@ class OrderPolicy
      */
     public function forceDelete(User $user, Order $order)
     {
-        return $user->hasAccess('orders.delete');
+        return empty($order->payment_date) && $user->hasAccess('orders.delete');
     }
 }

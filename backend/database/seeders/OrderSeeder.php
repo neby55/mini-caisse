@@ -32,7 +32,7 @@ class OrderSeeder extends Seeder
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
         // And its content
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
             'order_id' => $firstOrderId,
             'product_id' => $sandwich->id,
             'quantity' => 3,
@@ -40,7 +40,7 @@ class OrderSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
             'order_id' => $firstOrderId,
             'product_id' => $boisson->id,
             'quantity' => 3,
@@ -59,7 +59,7 @@ class OrderSeeder extends Seeder
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
         // And its content
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
             'order_id' => $secondOrderId,
             'product_id' => $sandwich->id,
             'quantity' => 2,
@@ -67,7 +67,7 @@ class OrderSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
             'order_id' => $secondOrderId,
             'product_id' => $boisson->id,
             'quantity' => 1,
@@ -75,7 +75,7 @@ class OrderSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
             'order_id' => $secondOrderId,
             'product_id' => $biere->id,
             'quantity' => 1,
@@ -83,7 +83,7 @@ class OrderSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
             'order_id' => $secondOrderId,
             'product_id' => $chips->id,
             'quantity' => 2,
@@ -91,7 +91,101 @@ class OrderSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
-        DB::table('orders_has_products')->insert([
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $dessert->id,
+            'quantity' => 2,
+            'price' => $dessert->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+
+        // Adding third order
+        $secondOrderId = DB::table('orders')->insertGetId([
+            'number' => 188,
+            'amount' => 9.5,
+            'user_id' => DB::table('users')->get()->random()->id,
+            'status' => 'paid',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        // And its content
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $sandwich->id,
+            'quantity' => 2,
+            'price' => $sandwich->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $boisson->id,
+            'quantity' => 1,
+            'price' => $boisson->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $biere->id,
+            'quantity' => 1,
+            'price' => $biere->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $chips->id,
+            'quantity' => 2,
+            'price' => $chips->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $dessert->id,
+            'quantity' => 2,
+            'price' => $dessert->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+
+        // Adding 4th order
+        $secondOrderId = DB::table('orders')->insertGetId([
+            'number' => 189,
+            'amount' => 10,
+            'user_id' => DB::table('users')->get()->random()->id,
+            'status' => 'paid',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        // And its content
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $sandwich->id,
+            'quantity' => 2,
+            'price' => $sandwich->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $biere->id,
+            'quantity' => 2,
+            'price' => $biere->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
+            'order_id' => $secondOrderId,
+            'product_id' => $chips->id,
+            'quantity' => 2,
+            'price' => $chips->price,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('carts')->insert([
             'order_id' => $secondOrderId,
             'product_id' => $dessert->id,
             'quantity' => 2,

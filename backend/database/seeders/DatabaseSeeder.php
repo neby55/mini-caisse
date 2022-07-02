@@ -46,6 +46,13 @@ class DatabaseSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
+        DB::table('users')->insert([
+            'name' => 'Preparateur',
+            'email' => 'prepa@gmail.com',
+            'password' => Hash::make('prepa'),
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
 
         // Adding Roles
         DB::table('roles')->insert([
@@ -76,6 +83,13 @@ class DatabaseSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
+        DB::table('roles')->insert([
+            'name' => 'preparateur',
+            'slug' => 'prepa',
+            'permissions' => '{"orders.add": "0", "orders.edit": "0", "orders.view": "1", "products.add": "0", "orders.delete": "0", "products.edit": "0", "products.view": "1", "platform.index": "1", "products.delete": "0", "platform.systems.roles": "0", "platform.systems.users": "0", "platform.systems.attachment": "0"}',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
 
         // Adding Users has roles
         DB::table('role_users')->insert([
@@ -93,6 +107,10 @@ class DatabaseSeeder extends Seeder
         DB::table('role_users')->insert([
             'user_id' => 4,
             'role_id' => 3
+        ]);
+        DB::table('role_users')->insert([
+            'user_id' => 5,
+            'role_id' => 5
         ]);
 
         // Adding Orders & Products
