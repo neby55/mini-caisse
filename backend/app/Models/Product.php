@@ -17,7 +17,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'price', 'status'];
+    protected $fillable = ['name', 'price', 'color', 'status'];
 
     /**
      * Name of columns to which http sorting can be applied

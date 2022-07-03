@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedDecimal('price', 8, 2);
+            $table->string('color');
             $table->enum('status', ['created', 'enabled', 'disabled']);
             $table->timestamps();
         });

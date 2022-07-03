@@ -3,11 +3,11 @@
 namespace App\Policies;
 
 use App\Models\Order;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
-class OrderPolicy
+class CartPolicy
 {
     use HandlesAuthorization;
 
@@ -26,10 +26,10 @@ class OrderPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Order $order)
+    public function view(User $user, Cart $cart)
     {
         return $user->hasAccess('orders.edit');
     }
@@ -49,10 +49,10 @@ class OrderPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Order $order)
+    public function update(User $user, Cart $cart)
     {
         return $user->hasAccess('orders.edit');
     }
@@ -61,12 +61,12 @@ class OrderPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Order $order)
+    public function delete(User $user, Cart $cart)
     {
-        return empty($order->payment_date) && $user->hasAccess('orders.delete');
+        return empty($cart->order->payment_date) && $user->hasAccess('orders.delete');
     }
 
     /**

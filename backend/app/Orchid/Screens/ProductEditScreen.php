@@ -107,17 +107,21 @@ class ProductEditScreen extends Screen
                     ->required()
                     ->value($this->product->exists ? $this->product->price : ''),
 
+                Input::make('color')
+                    ->type('color')
+                    ->title(__('Color'))
+                    ->placeholder(__('product background color in the app'))
+                    ->help('Sélectionner une couleur de fond pour visualisement distinguer les différents produits')
+                    ->required()
+                    ->value($this->product->exists ? $this->product->color : ''),
+
                 Select::make('status')
                     ->title(__('Status'))
-                    ->options([
-                        'created' => __('Created'),
-                        'enabled' => __('Enabled'),
-                        'disabled' => __('Disabled'),
-                    ])
+                    ->options(ProductStatus::selectOptions())
                     ->required()
-                    ->value($this->product->exists ? $this->product->status : ''),
+                    ->value($this->product->exists ? $this->product->status->value : ''),
     
-                Button::make(__('SAve'))
+                Button::make(__('Save'))
                     ->icon('note')
                     ->method('createOrUpdate')
                     ->class('btn btn-success btn-block')

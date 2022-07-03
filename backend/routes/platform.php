@@ -2,18 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\ProductEditScreen;
 use App\Orchid\Screens\ProductListScreen;
 use App\Orchid\Screens\OrderEditScreen;
 use App\Orchid\Screens\OrderListScreen;
+use App\Orchid\Screens\CartListScreen;
+use App\Orchid\Screens\CartEditScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -117,6 +112,20 @@ Route::screen('products', ProductListScreen::class)
     });
 Route::screen('order/{order?}', OrderEditScreen::class)
     ->name('platform.order.edit')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+        ->parent('platform.index')
+        ->push(__('Orders'), route('platform.order.list'));
+    });
+Route::screen('order/{order}/carts', CartListScreen::class)
+    ->name('platform.cart.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+        ->parent('platform.index')
+        ->push(__('Orders'), route('platform.order.list'));
+    });
+Route::screen('order/{order}/carts/{cart?}', CartEditScreen::class)
+    ->name('platform.cart.edit')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
         ->parent('platform.index')

@@ -104,7 +104,7 @@ class OrderSeeder extends Seeder
         $secondOrderId = DB::table('orders')->insertGetId([
             'number' => 188,
             'amount' => 9.5,
-            'user_id' => DB::table('users')->get()->random()->id,
+            'user_id' => 4,
             'status' => 'paid',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
@@ -155,7 +155,7 @@ class OrderSeeder extends Seeder
         $secondOrderId = DB::table('orders')->insertGetId([
             'number' => 189,
             'amount' => 10,
-            'user_id' => DB::table('users')->get()->random()->id,
+            'user_id' => 4,
             'status' => 'paid',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()

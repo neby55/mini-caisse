@@ -34,8 +34,12 @@ class ProductListLayout extends Table
                     return Link::make($product->name)
                         ->route('platform.product.edit', $product);
                 }),
-            TD::make('price', 'Prix')->sort(),
-            TD::make('status', 'Statut')->sort()
+            TD::make('price', __('Price'))->sort(),
+            TD::make('status', __('Status'))
+                ->sort()
+                ->render(function (Product $product) {
+                    return $product->status->label();
+                })
         ];
 
         $columns[] = TD::make('', 'Actions')->render(function (Product $product) {

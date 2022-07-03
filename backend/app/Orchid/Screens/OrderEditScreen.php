@@ -72,7 +72,7 @@ class OrderEditScreen extends Screen
                 ->method('remove')
                 ->canSee(
                     $this->order->exists
-                    && $this->order->status === 'created'
+                    && $this->order->status->value === OrderStatus::CREATED
                     && Auth::user()->can('delete', $this->order)
                 )
                 ->confirm(__('Do you confirm you want to delete this item ?')),
@@ -121,14 +121,9 @@ class OrderEditScreen extends Screen
 
                 Select::make('status')
                     ->title(__('Status'))
-                    ->options([
-                        'created' => __('Created'),
-                        'paid' => __('Paid'),
-                        'completed' => __('Completed'),
-                        'canceled' => __('Canceled')
-                    ])
+                    ->options(OrderStatus::selectOptions())
                     ->required()
-                    ->value($this->order->exists ? $this->order->status : ''),
+                    ->value($this->order->exists ? $this->order->status->value : ''),
     
                 Button::make(__('Save'))
                     ->icon('note')

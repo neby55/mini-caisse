@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts;
 
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
+use Orchid\Screen\Fields\Group;
 use Orchid\Screen\TD;
 use App\Models\Order;
 
@@ -38,12 +39,22 @@ class OrderListLayout extends Table
             TD::make('user_id', 'Paiement pris par')->sort()->render(function (Order $order) {
                 return $order->user->name;
             }),
-            TD::make('status', __('Status'))->sort(),
+            TD::make('status', __('Status'))
+                ->sort()
+                ->render(function (Order $order) {
+                    return $order->status->label();
+                }),
             TD::make('', 'Actions')->render(function (Order $order) {
-                return Link::make(__('Edit'))
-                    ->icon('pencil')
-                    ->class('btn btn-warning btn-block px-3 py-2')
-                    ->route('platform.order.edit', $order->id);
+                return Group::make([
+                    Link::make(__('Edit'))
+                        ->icon('pencil')
+                        ->class('btn btn-warning btn-block px-3 py-2')
+                        ->route('platform.order.edit', $order->id),
+                    Link::make(__('Cart'))
+                        ->icon('eye')
+                        ->class('btn btn-success btn-block px-3 py-2')
+                        ->route('platform.cart.edit', $order->id)
+                ]);
             })
         ];
     }

@@ -51,9 +51,6 @@ class ApiController extends Controller
         $order = Order::find($orderId);
 
         if (!empty($order)) {
-            // $order->loadMissing('carts');
-            // dump($order);exit;
-            // $order->loadMissing('carts.products');
             return response()->json([
                 'id' => $order->id,
                 'number' => $order->number,

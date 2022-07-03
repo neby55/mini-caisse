@@ -14,13 +14,12 @@ class CreateCartsTable extends Migration
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('order_id')->constrained();
             $table->foreignId('product_id')->constrained();
             $table->unsignedSmallInteger('quantity');
             $table->unsignedDecimal('price', 8, 2);
             $table->timestamps();
-            // Composite primary key
-            $table->primary(['order_id', 'product_id']);
         });
     }
 
