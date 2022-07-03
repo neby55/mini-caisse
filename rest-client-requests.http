@@ -1,0 +1,40 @@
+# Using REST-Client VSCode extension
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+GET http://localhost:8001/api/orders HTTP/1.1
+content-type: application/json
+
+########
+
+GET http://localhost:8001/api/orders/1 HTTP/1.1
+content-type: application/json
+
+########
+
+POST http://localhost:8001/api/orders/2/payment HTTP/1.1
+content-type: application/json
+
+########
+
+GET http://localhost:8001/api/orders/filters/created HTTP/1.1
+content-type: application/json
+
+########
+
+GET http://localhost:8001/api/orders/filters/paid HTTP/1.1
+content-type: application/json
+
+########
+
+GET http://localhost:8001/api/products HTTP/1.1
+content-type: application/json
+
+########
+
+GET http://localhost:8001/api/preparations/by-orders HTTP/1.1
+content-type: application/json
+
+########
+
+GET http://localhost:8001/api/preparations/by-products HTTP/1.1
+content-type: application/json
