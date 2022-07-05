@@ -26,6 +26,7 @@ class OrderSeeder extends Seeder
             'number' => 193,
             'amount' => 10.5,
             'payment_date' => \Carbon\Carbon::now()->toDateTimeString(),
+            'payment_mode' => 'cash',
             'user_id' => DB::table('users')->get()->random()->id,
             'status' => 'completed',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
@@ -105,6 +106,8 @@ class OrderSeeder extends Seeder
             'number' => 188,
             'amount' => 9.5,
             'user_id' => 4,
+            'payment_date' => '2022-06-24 18:15',
+            'payment_mode' => 'cash',
             'status' => 'paid',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
@@ -156,6 +159,11 @@ class OrderSeeder extends Seeder
             'number' => 189,
             'amount' => 10,
             'user_id' => 4,
+            'payment_date' => '2022-06-24 18:15',
+            'payment_mode' => 'cheque',
+            'firstname' => 'Gérard',
+            'lastname' => 'Manvussa',
+            'email' => 'gerard.manvussa@example.com',
             'status' => 'paid',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()

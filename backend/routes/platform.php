@@ -16,6 +16,9 @@ use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,10 +101,13 @@ Route::screen('roles', RoleListScreen::class)
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 Route::screen('product/{product?}', ProductEditScreen::class)
     ->name('platform.product.edit')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push(__('Products'), route('platform.product.list'));
+    ->breadcrumbs(function (Trail $trail, Product $product) {
+        if ($product->exists) {
+            return $trail
+                ->parent('platform.index')
+                ->push(__('Products'), route('platform.product.list'))
+                ->push(__('Product') . ' #' . $product->id, route('platform.product.edit', $product->id));
+        }
     });
 Route::screen('products', ProductListScreen::class)
     ->name('platform.product.list')
@@ -112,24 +118,36 @@ Route::screen('products', ProductListScreen::class)
     });
 Route::screen('order/{order?}', OrderEditScreen::class)
     ->name('platform.order.edit')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-        ->parent('platform.index')
-        ->push(__('Orders'), route('platform.order.list'));
+    ->breadcrumbs(function (Trail $trail, Order $order) {
+        if ($order->exists()) {
+            return $trail
+                ->parent('platform.index')
+                ->push(__('Orders'), route('platform.order.list'))
+                ->push(__('Order'). ' #' . $order->id, route('platform.order.edit', $order->id));
+        }
     });
 Route::screen('order/{order}/carts', CartListScreen::class)
     ->name('platform.cart.list')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-        ->parent('platform.index')
-        ->push(__('Orders'), route('platform.order.list'));
+    ->breadcrumbs(function (Trail $trail, Order $order) {
+        if ($order->exists()) {
+            return $trail
+                ->parent('platform.index')
+                ->push(__('Orders'), route('platform.order.list'))
+                ->push(__('Order'). ' #' . $order->id, route('platform.order.edit', $order->id))
+                ->push(__('Cart'), route('platform.cart.list', $order->id));
+        }
     });
 Route::screen('order/{order}/carts/{cart?}', CartEditScreen::class)
     ->name('platform.cart.edit')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-        ->parent('platform.index')
-        ->push(__('Orders'), route('platform.order.list'));
+    ->breadcrumbs(function (Trail $trail, int $orderId, Cart $cart) {
+        if ($cart->exists) {
+            return $trail
+                ->parent('platform.index')
+                ->push(__('Orders'), route('platform.order.list'))
+                ->push(__('Order'). ' #' . $orderId, route('platform.order.edit', $orderId))
+                ->push(__('Cart'), route('platform.cart.list', $orderId))
+                ->push(__('Cart'). ' #' . $cart->id, route('platform.cart.edit', [$orderId, $cart->id]));
+        }
     });
 Route::screen('orders', OrderListScreen::class)
     ->name('platform.order.list')

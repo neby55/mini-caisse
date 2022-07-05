@@ -54,7 +54,11 @@ class CartListScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Link::make(__('Back to order') . ' #' . $this->order->id)
+                ->icon('arrow-left')
+                ->route('platform.order.edit', $this->order->id)
+        ];
     }
 
     /**

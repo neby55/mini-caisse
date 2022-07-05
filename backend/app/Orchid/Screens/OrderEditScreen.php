@@ -6,6 +6,7 @@ use Orchid\Screen\Screen;
 use App\Models\Order;
 use App\Models\User;
 use App\Enums\OrderStatus;
+use App\Enums\PaymentMode;
 use Illuminate\Validation\Rules\Enum;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -66,6 +67,12 @@ class OrderEditScreen extends Screen
             Link::make(__('Back to list'))
                 ->icon('arrow-left')
                 ->route('platform.order.list'),
+            
+            Link::make(__('Cart'))
+                ->icon('eye')
+                ->class('btn btn-info')
+                ->canSee($this->order->exists)
+                ->route('platform.cart.edit', $this->order->id),
 
             Button::make(__('Delete'))
                 ->icon('trash')
@@ -114,10 +121,27 @@ class OrderEditScreen extends Screen
                     ->format('Y-m-d H:i')
                     ->value($this->order->exists ? $this->order->payment_date : ''),
 
+                Select::make('payment_mode')
+                    ->title(__('Payment Mode'))
+                    ->options(PaymentMode::selectOptions())
+                    ->value($this->order->exists && !empty($this->order->payment_mode) ? $this->order->payment_mode->value : ''),
+
                 Relation::make('user')
                     ->fromModel(User::class, 'name')
                     ->title(__('Payment registered by'))
                     ->value($this->order->exists ? $this->order->user_id : ''),
+                
+                Input::make('firstname')
+                    ->title(__('Firstname'))
+                    ->value($this->order->exists ? $this->order->firstname : ''),
+            
+                Input::make('lastname')
+                    ->title(__('Lastname'))
+                    ->value($this->order->exists ? $this->order->lastname : ''),
+        
+                Input::make('email')
+                    ->title(__('Email'))
+                    ->value($this->order->exists ? $this->order->email : ''),
 
                 Select::make('status')
                     ->title(__('Status'))
@@ -149,6 +173,12 @@ class OrderEditScreen extends Screen
             $validated = $request->validate([
                 'number' => 'required|max:255',
                 'amount' => 'required|numeric|gt:0',
+                'payment_date' => 'date',
+                'payment_mode' => [new Enum(PaymentMode::class)],
+                'user' => 'numeric|gt:0',
+                'firstname' => 'string',
+                'lastname' => 'string',
+                'email' => 'email:rfc,dns',
                 'status' => [new Enum(OrderStatus::class)]
             ]);
 

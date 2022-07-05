@@ -36,9 +36,16 @@ class OrderListLayout extends Table
                 }),
             TD::make('amount', __('Total'))->sort(),
             TD::make('payment_date', __('Payment date'))->sort(),
+            TD::make('payment_mode', __('Payment mode'))
+                ->sort()
+                ->render(function (Order $order) {
+                    return !empty($order->payment_mode) ? $order->payment_mode->label() : '-';
+                }),
             TD::make('user_id', 'Paiement pris par')->sort()->render(function (Order $order) {
                 return $order->user->name;
             }),
+            TD::make('firstname', __('Firstname'))->sort(),
+            TD::make('lastname', __('Lastname'))->sort(),
             TD::make('status', __('Status'))
                 ->sort()
                 ->render(function (Order $order) {
@@ -48,11 +55,11 @@ class OrderListLayout extends Table
                 return Group::make([
                     Link::make(__('Edit'))
                         ->icon('pencil')
-                        ->class('btn btn-warning btn-block px-3 py-2')
+                        ->class('btn btn-warning btn-block')
                         ->route('platform.order.edit', $order->id),
                     Link::make(__('Cart'))
                         ->icon('eye')
-                        ->class('btn btn-success btn-block px-3 py-2')
+                        ->class('btn btn-info btn-block')
                         ->route('platform.cart.edit', $order->id)
                 ]);
             })

@@ -17,21 +17,21 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['number', 'amount', 'user_id', 'payment_date', 'status'];
+    protected $fillable = ['number', 'amount', 'user_id', 'payment_date', 'payment_mode', 'firstname', 'lastname', 'email', 'status'];
 
     /**
      * Name of columns to which http sorting can be applied
      *
      * @var array
      */
-    protected $allowedSorts = ['number', 'amount', 'user_id', 'payment_date'];
+    protected $allowedSorts = ['number', 'amount', 'user_id', 'payment_date', 'payment_mode', 'firstname', 'lastname', 'email'];
 
     /**
      * Name of columns to which http filter can be applied
      *
      * @var array
      */
-    protected $allowedFilters = ['number', 'amount', 'user_id', 'payment_date', 'status'];
+    protected $allowedFilters = ['number', 'amount', 'user_id', 'payment_date', 'payment_mode', 'firstname', 'lastname', 'email', 'status'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -46,6 +46,7 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
+        'payment_mode' => \App\Enums\PaymentMode::class,
         'status' => \App\Enums\OrderStatus::class,
     ];
 
