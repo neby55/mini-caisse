@@ -6,14 +6,14 @@ use Orchid\Screen\Screen;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Select;
-use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Relation;
+use Orchid\Support\Facades\Alert;
 
 class CartEditScreen extends Screen
 {
@@ -62,6 +62,10 @@ class CartEditScreen extends Screen
         return [
             Link::make(__('Back to list'))
                 ->icon('arrow-left')
+                ->canSee(
+                    $this->cart->exists
+                    && Auth::user()->can('update', $this->cart->order)
+                )
                 ->route('platform.cart.list', $this->cart->order),
 
             Button::make(__('Delete'))
@@ -82,6 +86,13 @@ class CartEditScreen extends Screen
      */
     public function layout(): iterable
     {
+        // Forgot those lines, but Feature tests does not
+        if ($this->cart->exists) {
+            $this->authorize('update', $this->cart);
+        } else {
+            $this->authorize('create', Cart::class);
+        }
+
         return [
             Layout::rows([
 
@@ -121,5 +132,69 @@ class CartEditScreen extends Screen
                     ->canSee($this->cart->exists)
             ])
         ];
+    }
+
+    /**
+     * @param Cart $cart
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createOrUpdate(Cart $cart, Request $request)
+    {   
+        // Update
+        if (!empty($cart)) {
+            $this->authorize('update', $cart);
+
+            $validated = $request->validate([
+                'order' => 'required|int',
+                'product' => 'required|int',
+                'quantity' => 'required|int|gt:0',
+                'price' => 'required|numeric|gt:0',
+            ]);
+
+            if ($validated) {
+                $cart->fill($request->all())->save();
+                Alert::info('La ligne de panier a bien été modifié');
+            } else {
+                Alert::warning('Erreur dans la modification de la ligne de panier');
+            }
+            return redirect()->route('platform.cart.list', $cart->order);
+        } else { // Add
+            $this->authorize('create', Cart::class);
+
+            $validated = $request->validate([
+                'order' => 'required|int',
+                'product' => 'required|int',
+                'quantity' => 'required|int|gt:0',
+                'price' => 'required|numeric|gt:0',
+            ]);
+
+            if ($validated) {
+                $cart->fill($request->all())->save();
+                Alert::info('La ligne de panier a bien été créé');
+            } else {
+                Alert::warning('Erreur dans la création de la ligne de panier');
+            }
+            return redirect()->route('platform.order.list');
+        }
+    }
+
+    /**
+     * @param Product $cart
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function remove(Product $cart)
+    {
+        // Check Auth
+        $this->authorize('delete', $cart);
+
+        $cart->delete();
+
+        Alert::info('Produit supprimé');
+
+        return redirect()->route('platform.product.list');
     }
 }

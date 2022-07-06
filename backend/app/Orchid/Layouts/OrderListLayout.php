@@ -7,6 +7,7 @@ use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\TD;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class OrderListLayout extends Table
 {
@@ -52,16 +53,20 @@ class OrderListLayout extends Table
                     return $order->status->label();
                 }),
             TD::make('', 'Actions')->render(function (Order $order) {
-                return Group::make([
-                    Link::make(__('Edit'))
+                $columns = [];
+                if (Auth::user()->can('update', $order)) {
+                    $columns[] = Link::make(__('Edit'))
                         ->icon('pencil')
                         ->class('btn btn-warning btn-block')
-                        ->route('platform.order.edit', $order->id),
-                    Link::make(__('Cart'))
+                        ->route('platform.order.edit', $order->id);
+                }
+                if (Auth::user()->can('viewAny', $order)) {
+                    $columns[] = Link::make(__('Cart'))
                         ->icon('eye')
                         ->class('btn btn-info btn-block')
-                        ->route('platform.cart.edit', $order->id)
-                ]);
+                        ->route('platform.cart.edit', $order->id);
+                }
+                return Group::make($columns);
             })
         ];
     }

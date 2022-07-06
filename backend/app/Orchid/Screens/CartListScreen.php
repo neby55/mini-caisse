@@ -57,7 +57,19 @@ class CartListScreen extends Screen
         return [
             Link::make(__('Back to order') . ' #' . $this->order->id)
                 ->icon('arrow-left')
-                ->route('platform.order.edit', $this->order->id)
+                ->canSee(
+                    $this->order->exists
+                    && Auth::user()->can('update', $this->order)
+                )
+                ->route('platform.order.edit', $this->order->id),
+            
+            Link::make(__('Back to orders'))
+                ->icon('arrow-left')
+                ->canSee(
+                    !$this->order->exists
+                    || Auth::user()->cannot('update', $this->order)
+                )
+                ->route('platform.order.list')
         ];
     }
 

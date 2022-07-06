@@ -7,6 +7,7 @@ use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class CartListLayout extends Table
 {
@@ -43,10 +44,12 @@ class CartListLayout extends Table
             TD::make('quantity', __('Quantity'))->sort(),
             TD::make('price', __('Price'))->sort(),
             TD::make('', 'Actions')->render(function (Cart $cart) {
-                return Link::make(__('Edit'))
-                    ->icon('pencil')
-                    ->class('btn btn-warning btn-block px-3 py-2')
-                    ->route('platform.cart.edit', [$cart->order, $cart]);
+                if (Auth::user()->can('update', $cart->order)) {
+                    return Link::make(__('Edit'))
+                        ->icon('pencil')
+                        ->class('btn btn-warning btn-block px-3 py-2')
+                        ->route('platform.cart.edit', [$cart->order, $cart]);
+                }
             })
         ];
     }

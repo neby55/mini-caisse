@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('email')->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->enum('status', ['created', 'paid', 'completed', 'canceled']);
             $table->timestamps();
         });

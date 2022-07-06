@@ -93,6 +93,12 @@ class OrderEditScreen extends Screen
      */
     public function layout(): iterable
     {
+        if ($this->order->exists) {
+            $this->authorize('update', $this->order);
+        } else {
+            $this->authorize('create', Order::class);
+        }
+
         return [
             Layout::rows([
                 Input::make('number')

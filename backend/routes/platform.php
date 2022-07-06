@@ -116,16 +116,7 @@ Route::screen('products', ProductListScreen::class)
             ->parent('platform.index')
             ->push(__('Products'), route('platform.product.list'));
     });
-Route::screen('order/{order?}', OrderEditScreen::class)
-    ->name('platform.order.edit')
-    ->breadcrumbs(function (Trail $trail, Order $order) {
-        if ($order->exists()) {
-            return $trail
-                ->parent('platform.index')
-                ->push(__('Orders'), route('platform.order.list'))
-                ->push(__('Order'). ' #' . $order->id, route('platform.order.edit', $order->id));
-        }
-    });
+
 Route::screen('order/{order}/carts', CartListScreen::class)
     ->name('platform.cart.list')
     ->breadcrumbs(function (Trail $trail, Order $order) {
@@ -137,7 +128,7 @@ Route::screen('order/{order}/carts', CartListScreen::class)
                 ->push(__('Cart'), route('platform.cart.list', $order->id));
         }
     });
-Route::screen('order/{order}/carts/{cart?}', CartEditScreen::class)
+Route::screen('order/{order}/cart/{cart?}', CartEditScreen::class)
     ->name('platform.cart.edit')
     ->breadcrumbs(function (Trail $trail, int $orderId, Cart $cart) {
         if ($cart->exists) {
@@ -147,6 +138,16 @@ Route::screen('order/{order}/carts/{cart?}', CartEditScreen::class)
                 ->push(__('Order'). ' #' . $orderId, route('platform.order.edit', $orderId))
                 ->push(__('Cart'), route('platform.cart.list', $orderId))
                 ->push(__('Cart'). ' #' . $cart->id, route('platform.cart.edit', [$orderId, $cart->id]));
+        }
+    });
+Route::screen('order/{order?}', OrderEditScreen::class)
+    ->name('platform.order.edit')
+    ->breadcrumbs(function (Trail $trail, Order $order) {
+        if ($order->exists()) {
+            return $trail
+                ->parent('platform.index')
+                ->push(__('Orders'), route('platform.order.list'))
+                ->push(__('Order'). ' #' . $order->id, route('platform.order.edit', $order->id));
         }
     });
 Route::screen('orders', OrderListScreen::class)
