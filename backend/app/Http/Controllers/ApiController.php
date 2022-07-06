@@ -94,6 +94,34 @@ class ApiController extends Controller
     }
 
     /**
+     * Set order completed status
+     *
+     * @param  int  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function setOrderCompleted(int $orderId)
+    {
+        $order = Order::find($orderId);
+
+        if (!empty($order)) {
+            if ($order->status === OrderStatus::PAID) {
+                if (!empty($order->payment_date)) {
+                    $order->status = OrderStatus::COMPLETED;
+                    $order->save();
+
+                    return response('Updated', 200);
+                } else {
+                    return response('Order does not have any payment', 409);
+                }
+            } else {
+                return response('Order status incorrect ('. $order->status->value . ' expecting ' . OrderStatus::PAID->value . ')', 409);
+            }
+        } else {
+            return response('', 404);
+        }
+    }
+
+    /**
      * Send all products data
      *
      * @return \Illuminate\Http\Response

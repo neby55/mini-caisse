@@ -341,8 +341,4 @@ class AdminAuthTest extends TestCase
             return $this->actingAs($user)->$method($url, $data);
         }
     }
-
-    // TODO créer des tests pour chaque route par role
-
-    // TODO autre fichier test sur l'API
 }

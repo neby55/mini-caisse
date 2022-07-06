@@ -22,6 +22,7 @@ use App\Http\Controllers\ApiController;
 Route::get('/orders', [ApiController::class, 'getOrders']);
 Route::get('/orders/{id}', [ApiController::class, 'getOrder'])->where('id', '[0-9]+');
 Route::post('/orders/{id}/payment', [ApiController::class, 'setOrderPayment'])->where('id', '[0-9]+');
+Route::post('/orders/{id}/complete', [ApiController::class, 'setOrderCompleted'])->where('id', '[0-9]+');
 Route::get('/orders/filters/created', [ApiController::class, 'getCreatedOrders']);
 Route::get('/orders/filters/paid', [ApiController::class, 'getPaidOrders']);
 Route::get('/products', [ApiController::class, 'getProducts']);
