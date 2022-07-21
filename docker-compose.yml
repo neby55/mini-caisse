@@ -23,6 +23,7 @@ services:
     build: ./backend
     ports:
       - 8001:80
+      - 6001:6001
     stdin_open: true
     tty: true
     volumes:
@@ -36,3 +37,14 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
       - db
+  
+  frontend:
+    build: ./frontend
+    user: node
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./frontend:/frontend
+    command: "npm run dev"

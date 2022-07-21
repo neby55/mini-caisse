@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
  
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
 use App\Enums\OrderStatus;
 use App\Enums\ProductStatus;
- 
+use Illuminate\Http\Request;
+
 class ApiController extends Controller
 {
     /**
@@ -61,6 +63,71 @@ class ApiController extends Controller
             ]);
         } else {
             return response('', 404);
+        }
+    }
+
+    /**
+     * Add an order
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'number' => 'required|numeric|gt:0',
+            'items' => 'required|array'
+        ]);
+
+        if ($validated) {
+            $orderNumber = (int) $request->input('number');
+            // First checking number is not already used
+            $activeOrdersWithNumber = Order::where('number', $orderNumber)
+                ->whereIn('status', [OrderStatus::CREATED, OrderStatus::PAID])
+                ->get();
+            // If no active order with same number
+            if ($activeOrdersWithNumber->isEmpty()) {
+                // creating order
+                $order = new Order();
+                $order->number = $orderNumber;
+                $order->amount = 0;
+                $order->status = OrderStatus::CREATED;
+                $order->save();
+
+                // creating cart items
+                $items = $request->input('items');
+                foreach ($items as $currentItem) {
+                    $currentProduct = Product::find($currentItem['id']);
+
+                    if (!empty($currentProduct)) {
+                        $currentCart = new Cart();
+                        $currentCart->order_id = $order->id;
+                        $currentCart->product_id = $currentProduct->id;
+                        $currentCart->quantity = $currentItem['qty'];
+                        $currentCart->price = $currentProduct->price;
+                        $currentCart->save();
+
+                        // Adding to order amount
+                        $order->amount += $currentCart->price * $currentCart->quantity;
+                    }
+                }
+
+                // Amount updated
+                $order->save();
+
+                return response()->json([
+                    'id' => $order->id,
+                    'number' => $order->number,
+                    'amount' => $order->amount,
+                    'payment_date' => $order->payment_date,
+                    'status' => $order->status,
+                    'items' => $order->carts
+                ], 201);
+            } else {
+                return response('Order number already in use', 400);
+            }
+        } else {
+            return response('Order data incorrect', 400);
         }
     }
 

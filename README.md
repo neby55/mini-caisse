@@ -13,3 +13,16 @@ Une petite application simple permettant de prendre les commandes rapidement pou
   - `php artisan migrate` la commande à exécuter
 - lancer le _seeding_ `docker-compose exec backend php artisan db:seed`
 - si on veut supprimer les tables puis les remplir à nouveau : `docker-compose exec backend php artisan migrate:fresh --seed`
+
+## Tests
+
+- pour lancer les tests, exécuter la commande ̀`docker-compose exec backend php artisan test`
+- il y a des tests sur l'API, les routes et les permissions de l'interface d'administration
+
+## URLs
+
+- frontend : http://localhost:3000
+  - seul la prise de commande est fonctionnelle
+- backend :
+  - api : http://localhost:8001/api
+  - admin : http://localhost:8001/admin/

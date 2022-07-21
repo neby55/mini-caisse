@@ -177,7 +177,7 @@ class OrderEditScreen extends Screen
             $this->authorize('update', $order);
 
             $validated = $request->validate([
-                'number' => 'required|max:255',
+                'number' => 'required|numeric|gt:0',
                 'amount' => 'required|numeric|gt:0',
                 'payment_date' => 'date',
                 'payment_mode' => [new Enum(PaymentMode::class)],

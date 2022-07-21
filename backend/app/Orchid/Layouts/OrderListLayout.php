@@ -43,7 +43,7 @@ class OrderListLayout extends Table
                     return !empty($order->payment_mode) ? $order->payment_mode->label() : '-';
                 }),
             TD::make('user_id', 'Paiement pris par')->sort()->render(function (Order $order) {
-                return $order->user->name;
+                return $order->user ? $order->user->name : '-';
             }),
             TD::make('firstname', __('Firstname'))->sort(),
             TD::make('lastname', __('Lastname'))->sort(),
@@ -64,7 +64,7 @@ class OrderListLayout extends Table
                     $columns[] = Link::make(__('Cart'))
                         ->icon('eye')
                         ->class('btn btn-info btn-block')
-                        ->route('platform.cart.edit', $order->id);
+                        ->route('platform.cart.list', $order->id);
                 }
                 return Group::make($columns);
             })
