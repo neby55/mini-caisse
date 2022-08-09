@@ -9,10 +9,10 @@ export default function Index() {
         Prendre une commande
       </HomeButton>
       <HomeButton href="/orders/created" color="success">
-        Commandes à payer
+        Commandes à payer (todo)
       </HomeButton>
       <HomeButton href="/preparation/by-products" color="warning">
-        Produits à préparer
+        Produits à préparer (todo)
       </HomeButton>
     </Grid>
   );

@@ -22,17 +22,16 @@ const pages = [
     key: 'orders-new'
   },
   {
-    label: 'Commandes à payer',
+    label: 'Commandes à payer (todo)',
     url: '/orders/created',
     key: 'order-created'
   },
   {
-    label: 'Produits à préparer',
+    label: 'Produits à préparer (todo)',
     url: '/preparation/by-products',
     key: 'preparation-byproducts'
   }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function DarkModeSelector(colorMode: any) {
   return (

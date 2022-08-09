@@ -43,6 +43,9 @@ class CartListLayout extends Table
                 }),
             TD::make('quantity', __('Quantity'))->sort(),
             TD::make('price', __('Price'))->sort(),
+            TD::make('total', __('Total'))->render(function (Cart $cart): float {
+                return $cart->price * $cart->quantity;
+            }),
             TD::make('', 'Actions')->render(function (Cart $cart) {
                 if (Auth::user()->can('update', $cart->order)) {
                     return Link::make(__('Edit'))

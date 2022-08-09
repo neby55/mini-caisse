@@ -91,6 +91,8 @@ class ApiController extends Controller
                 $order = new Order();
                 $order->number = $orderNumber;
                 $order->amount = 0;
+                // by default, we setup user as "caisse"
+                $order->user_id = 4;
                 $order->status = OrderStatus::CREATED;
                 $order->save();
 

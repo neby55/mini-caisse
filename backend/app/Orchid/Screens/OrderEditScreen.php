@@ -72,7 +72,7 @@ class OrderEditScreen extends Screen
                 ->icon('eye')
                 ->class('btn btn-info')
                 ->canSee($this->order->exists)
-                ->route('platform.cart.edit', $this->order->id),
+                ->route('platform.cart.list', $this->order->id),
 
             Button::make(__('Delete'))
                 ->icon('trash')

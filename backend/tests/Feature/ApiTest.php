@@ -11,7 +11,7 @@ class ApiTest extends TestCase
      * @return void
      */
     public function test_get_url_status(int $expectedStatus, String $url) {
-        $this->get($url)->assertStatus($expectedStatus);
+        $this->getJson($url)->assertStatus($expectedStatus);
     }
 
     public function getUrlGetToCheck() {
@@ -42,14 +42,33 @@ class ApiTest extends TestCase
      * @dataProvider getUrlPostToCheck
      * @return void
      */
-    public function test_post_url_status(int $expectedStatus, String $url) {
-        $this->post($url)->assertStatus($expectedStatus);
+    public function test_post_url_status(int $expectedStatus, String $url, Array $data=[]) {
+        if (!empty($data)) {
+            $this->postJson($url, $data)->assertStatus($expectedStatus);
+        } else {
+            $this->postJson($url)->assertStatus($expectedStatus);
+        }
     }
 
     public function getUrlPostToCheck() {
+        $newOrderData = [
+            'number' => mt_rand(1000,99000),
+            'items' => [
+                [
+                    'id' => 1,
+                    'qty' => 2
+                ],
+                [
+                    'id' => 2,
+                    'qty' => 3
+                ]
+            ]
+        ];
+        
         $input = [
             [404, '/api'],
-            [405, '/api/orders'],
+            [422, '/api/orders'],
+            [201, '/api/orders', $newOrderData],
             [404, '/api/order/erer'],
             [404, '/api/order/1'],
             [405, '/api/orders/1'],
