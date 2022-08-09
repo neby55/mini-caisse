@@ -7,7 +7,7 @@ Une petite application simple permettant de prendre les commandes rapidement pou
 - cloner le dépôt
 - avoir _Docker_ installé sur sa machine
 - `docker-compose up` (option ` -d` si tu ne souhaite pas voir les logs => daemon détaché)
-- lancer la _migration_ `docker-compose exec backend php artisan migrate`
+- lancer la _migration_ `docker-compose exec backend php artisan migrate`, explications ⬇️
   - `docker-compose exec` permet d'exécuter une commande dans un container
   - `backend` nom du service dans lequel exécuter la commande
   - `php artisan migrate` la commande à exécuter
@@ -23,7 +23,7 @@ Une petite application simple permettant de prendre les commandes rapidement pou
 ## URLs
 
 - frontend : http://localhost:3000
-  - seul la prise de commande est fonctionnelle
+  - seule la prise de commande est fonctionnelle
 - backend :
   - api : http://localhost:8001/api
   - admin : http://localhost:8001/admin/
