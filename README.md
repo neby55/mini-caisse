@@ -16,7 +16,7 @@ Une petite application simple permettant de prendre les commandes rapidement pou
 
 ## Tests
 
-- pour lancer les tests, exécuter la commande ̀`docker-compose exec backend php artisan test`
+- pour lancer les tests, exécuter la commande `docker-compose exec backend php artisan test`
 - il y a des tests sur l'API, les routes et les permissions de l'interface d'administration
 - côté frontend, je n'ai pas encore mis en place les tests
 
