@@ -53,14 +53,8 @@ class ApiController extends Controller
         $order = Order::find($orderId);
 
         if (!empty($order)) {
-            return response()->json([
-                'id' => $order->id,
-                'number' => $order->number,
-                'amount' => $order->amount,
-                'payment_date' => $order->payment_date,
-                'status' => $order->status,
-                'items' => $order->carts
-            ]);
+            $order->load('carts');
+            return response()->json($order);
         } else {
             return response('', 404);
         }
@@ -82,19 +76,8 @@ class ApiController extends Controller
         if ($validated) {
             $orderNumber = (int) $request->input('number');
             // First checking number is not already used
-            $activeOrdersWithNumber = Order::where('number', $orderNumber)
-                ->whereIn('status', [OrderStatus::CREATED, OrderStatus::PAID])
-                ->get();
-            // If no active order with same number
-            if ($activeOrdersWithNumber->isEmpty()) {
-                // creating order
-                $order = new Order();
-                $order->number = $orderNumber;
-                $order->amount = 0;
-                // by default, we setup user as "caisse"
-                $order->user_id = 4;
-                $order->status = OrderStatus::CREATED;
-                $order->save();
+            if (Order::isNumberAvailable($orderNumber)) {
+                $order = Order::createDefaultOrder($orderNumber);
 
                 // creating cart items
                 $items = $request->input('items');
@@ -102,29 +85,14 @@ class ApiController extends Controller
                     $currentProduct = Product::find($currentItem['id']);
 
                     if (!empty($currentProduct)) {
-                        $currentCart = new Cart();
-                        $currentCart->order_id = $order->id;
-                        $currentCart->product_id = $currentProduct->id;
-                        $currentCart->quantity = $currentItem['qty'];
-                        $currentCart->price = $currentProduct->price;
-                        $currentCart->save();
-
-                        // Adding to order amount
-                        $order->amount += $currentCart->price * $currentCart->quantity;
+                        $order->addCart($currentProduct, $currentItem['qty']);
                     }
                 }
 
                 // Amount updated
-                $order->save();
+                $order->sumCartAmounts();
 
-                return response()->json([
-                    'id' => $order->id,
-                    'number' => $order->number,
-                    'amount' => $order->amount,
-                    'payment_date' => $order->payment_date,
-                    'status' => $order->status,
-                    'items' => $order->carts
-                ], 201);
+                return response()->json($order, 201);
             } else {
                 return response('Order number already in use', 400);
             }
@@ -144,11 +112,9 @@ class ApiController extends Controller
         $order = Order::find($orderId);
 
         if (!empty($order)) {
-            if ($order->status === OrderStatus::CREATED) {
+            if ($order->canSetPayment()) {
                 if (empty($order->payment_date)) {
-                    $order->payment_date = \Carbon\Carbon::now()->toDateTimeString();
-                    $order->status = OrderStatus::PAID;
-                    $order->save();
+                    $order->setPayment();
 
                     return response('Updated', 200);
                 } else {
@@ -173,10 +139,9 @@ class ApiController extends Controller
         $order = Order::find($orderId);
 
         if (!empty($order)) {
-            if ($order->status === OrderStatus::PAID) {
+            if ($order->canSetCompleted()) {
                 if (!empty($order->payment_date)) {
-                    $order->status = OrderStatus::COMPLETED;
-                    $order->save();
+                    $order->setCompleted();
 
                     return response('Updated', 200);
                 } else {

@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('number');
+            $table->unsignedInteger('number');
             $table->unsignedDecimal('amount', 8, 2);
             $table->dateTime('payment_date')->nullable();
             $table->enum('payment_mode', ['cash', 'cheque', 'credit card', 'online'])->nullable();
