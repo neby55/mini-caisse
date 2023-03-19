@@ -1,0 +1,322 @@
+[
+{
+    "model": "api.product",
+    "pk": 1,
+    "fields": {
+        "name": "Sandwichs",
+        "price": "2.00",
+        "color": "#d35400",
+        "status": "enabled",
+        "created_at": "2023-03-17T01:11:22.663Z",
+        "updated_at": "2023-03-17T22:02:04.072Z"
+    }
+},
+{
+    "model": "api.product",
+    "pk": 2,
+    "fields": {
+        "name": "Boissons",
+        "price": "1.50",
+        "color": "#e74c3c",
+        "status": "enabled",
+        "created_at": "2023-03-17T22:02:21.190Z",
+        "updated_at": "2023-03-17T22:02:21.190Z"
+    }
+},
+{
+    "model": "api.product",
+    "pk": 3,
+    "fields": {
+        "name": "Bières",
+        "price": "2.00",
+        "color": "#2ecc71",
+        "status": "enabled",
+        "created_at": "2023-03-17T22:02:39.428Z",
+        "updated_at": "2023-03-17T22:02:39.428Z"
+    }
+},
+{
+    "model": "api.product",
+    "pk": 4,
+    "fields": {
+        "name": "Chips",
+        "price": "0.50",
+        "color": "#d4ac0d",
+        "status": "enabled",
+        "created_at": "2023-03-17T22:02:55.118Z",
+        "updated_at": "2023-03-17T22:02:55.118Z"
+    }
+},
+{
+    "model": "api.product",
+    "pk": 5,
+    "fields": {
+        "name": "Desserts",
+        "price": "0.50",
+        "color": "#fbeee6",
+        "status": "enabled",
+        "created_at": "2023-03-17T22:03:09.655Z",
+        "updated_at": "2023-03-17T22:03:09.655Z"
+    }
+},
+{
+    "model": "api.product",
+    "pk": 6,
+    "fields": {
+        "name": "Eau 50cl",
+        "price": "0.50",
+        "color": "#3498db",
+        "status": "enabled",
+        "created_at": "2023-03-17T22:03:29.797Z",
+        "updated_at": "2023-03-17T22:03:29.797Z"
+    }
+},
+{
+    "model": "api.order",
+    "pk": 1,
+    "fields": {
+        "number": 193,
+        "amount": "10.50",
+        "payment_date": "2023-03-17T22:19:39Z",
+        "payment_mode": "cash",
+        "firstname": null,
+        "lastname": null,
+        "email": null,
+        "user": 1,
+        "status": "completed",
+        "created_at": "2023-03-17T22:30:46.649Z",
+        "updated_at": "2023-03-17T22:30:46.649Z"
+    }
+},
+{
+    "model": "api.order",
+    "pk": 2,
+    "fields": {
+        "number": 180,
+        "amount": "9.50",
+        "payment_date": null,
+        "payment_mode": null,
+        "firstname": null,
+        "lastname": null,
+        "email": null,
+        "user": 1,
+        "status": "created",
+        "created_at": "2023-03-17T22:31:50.432Z",
+        "updated_at": "2023-03-17T22:31:50.432Z"
+    }
+},
+{
+    "model": "api.order",
+    "pk": 3,
+    "fields": {
+        "number": 188,
+        "amount": "9.50",
+        "payment_date": "2023-02-07T12:00:00Z",
+        "payment_mode": "cash",
+        "firstname": null,
+        "lastname": null,
+        "email": null,
+        "user": 3,
+        "status": "paid",
+        "created_at": "2023-03-17T22:32:41.047Z",
+        "updated_at": "2023-03-17T22:32:41.047Z"
+    }
+},
+{
+    "model": "api.order",
+    "pk": 4,
+    "fields": {
+        "number": 189,
+        "amount": "10.00",
+        "payment_date": "2023-03-17T12:00:00Z",
+        "payment_mode": "cheque",
+        "firstname": "Gérard",
+        "lastname": "Manvussa",
+        "email": "gerard.manvussa@example.com",
+        "user": 3,
+        "status": "paid",
+        "created_at": "2023-03-17T22:33:23.480Z",
+        "updated_at": "2023-03-17T22:33:23.480Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 1,
+    "fields": {
+        "order": 1,
+        "product": 1,
+        "quantity": 3,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:33:59.808Z",
+        "updated_at": "2023-03-17T22:33:59.808Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 2,
+    "fields": {
+        "order": 1,
+        "product": 2,
+        "quantity": 3,
+        "price": "1.50",
+        "created_at": "2023-03-17T22:34:14.745Z",
+        "updated_at": "2023-03-17T22:34:14.745Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 3,
+    "fields": {
+        "order": 2,
+        "product": 1,
+        "quantity": 2,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:34:38.185Z",
+        "updated_at": "2023-03-17T22:34:38.185Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 4,
+    "fields": {
+        "order": 2,
+        "product": 2,
+        "quantity": 1,
+        "price": "1.50",
+        "created_at": "2023-03-17T22:34:56.066Z",
+        "updated_at": "2023-03-17T22:34:56.066Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 5,
+    "fields": {
+        "order": 2,
+        "product": 3,
+        "quantity": 1,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:35:02.561Z",
+        "updated_at": "2023-03-17T22:35:02.561Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 6,
+    "fields": {
+        "order": 2,
+        "product": 4,
+        "quantity": 2,
+        "price": "0.50",
+        "created_at": "2023-03-17T22:35:19.394Z",
+        "updated_at": "2023-03-17T22:35:19.395Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 7,
+    "fields": {
+        "order": 2,
+        "product": 5,
+        "quantity": 2,
+        "price": "0.50",
+        "created_at": "2023-03-17T22:35:26.091Z",
+        "updated_at": "2023-03-17T22:35:26.091Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 8,
+    "fields": {
+        "order": 3,
+        "product": 1,
+        "quantity": 2,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:35:39.647Z",
+        "updated_at": "2023-03-17T22:35:39.647Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 9,
+    "fields": {
+        "order": 3,
+        "product": 2,
+        "quantity": 1,
+        "price": "1.50",
+        "created_at": "2023-03-17T22:35:50.425Z",
+        "updated_at": "2023-03-17T22:35:50.425Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 10,
+    "fields": {
+        "order": 3,
+        "product": 3,
+        "quantity": 1,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:36:08.592Z",
+        "updated_at": "2023-03-17T22:36:08.592Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 11,
+    "fields": {
+        "order": 3,
+        "product": 5,
+        "quantity": 2,
+        "price": "0.50",
+        "created_at": "2023-03-17T22:36:14.952Z",
+        "updated_at": "2023-03-17T22:36:14.952Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 12,
+    "fields": {
+        "order": 4,
+        "product": 1,
+        "quantity": 2,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:38:29.103Z",
+        "updated_at": "2023-03-17T22:38:29.103Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 13,
+    "fields": {
+        "order": 4,
+        "product": 3,
+        "quantity": 2,
+        "price": "2.00",
+        "created_at": "2023-03-17T22:38:35.900Z",
+        "updated_at": "2023-03-17T22:38:35.900Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 14,
+    "fields": {
+        "order": 4,
+        "product": 4,
+        "quantity": 2,
+        "price": "0.50",
+        "created_at": "2023-03-17T22:38:52.393Z",
+        "updated_at": "2023-03-17T22:38:52.393Z"
+    }
+},
+{
+    "model": "api.cart",
+    "pk": 15,
+    "fields": {
+        "order": 4,
+        "product": 5,
+        "quantity": 2,
+        "price": "0.50",
+        "created_at": "2023-03-17T22:38:59.561Z",
+        "updated_at": "2023-03-17T22:38:59.561Z"
+    }
+}
+]
